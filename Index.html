@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Somando Conhecimento</title>
+
+  <style> 
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url(CAPA.png);  
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .imagemsomamamos {
+      position: relative;
+      right: 6%;
+    }
+
+    .formulario {
+      width: 20%;
+      padding: 2%;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    }
+
+    .formulario.active {
+      transform: scale(1.05);
+    }
+
+    .formulario h2 {
+      margin-bottom: 10px;
+      color: #007BFF;
+    }
+
+    .formulario h3 {
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #444;
+    }
+
+    input {
+      width: 100%;
+      padding: 2%;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    select {
+      width: 100%;
+      padding: 2%;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 2% 6%;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* Estilo do plano de fundo */
+    #planoDeFundo {
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      width: calc(100% + 10px);
+      height: calc(100% + 10px);
+      z-index: -1;
+    }
+
+    /* Efeito de escala ao passar o mouse por cima dos formulários */
+    .formulario {
+      /* Restante dos estilos existentes */
+      transition: transform 0.2s;
+    }
+
+    .formulario:hover {
+      transform: scale(1.1); /* Escala 10% maior ao passar o mouse por cima */
+    }
+
+    .imagem-qrcode {
+      box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3); /* Aplica sombreamento na imagem */
+      padding: 1px; /* Aplica padding de 1 pixel ao redor da imagem */
+    }
+
+    /* Estilo do modal */
+    #modalPrivado {
+      display: none;
+      background-color: rgba(0, 0, 0, 0.7);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #modalPrivado div {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+  </style>
+   
+</head>
+<body>
+  
+  <div style="position: absolute; top: 10px; left: 10px;">
+    <img src="qrcode.jpeg" alt="" class="imagem-qrcode" style="width: 20%; height: 20%;">
+  </div>
+
+  <div class="imagemsomamamos">
+    <img src="Somamos.png" alt="">
+  </div>
+
+  <div id="planoDeFundo"></div>
+  
+  <div class="formulario" id="cadastro1">
+    <h2>Escola:</h2>
+    <h3>Cadastro de Escola:</h3>
+    <form id="cadastroForm">
+      <label for="tipo">Rede de ensino:</label>
+      <select id="tipo" name="tipo" required>
+        <option value="">Selecione uma opção</option>
+        <option value="privado">Privada</option>
+        <option value="publico">Pública</option>
+      </select>
+
+      <label for="name">Nome da Instituição:</label>
+      <input type="name" id="Nome" name="Nome" required>
+      
+      <label for="cnpj">CNPJ:</label>
+      <input type="text" id="cnpj" name="cnpj" required>
+      
+      <label for="endereco">Endereço:</label>
+      <input type="text" id="endereco" name="endereco" required>
+       
+      <label for="email">E-mail:</label>
+      <input type="email" id="email" name="email" required>
+      
+      <label for="telefone">Telefone:</label>
+      <input type="text" id="telefone" name="telefone" required>
+      
+      <button type="submit">Cadastrar</button>
+    </form>
+  </div>
+
+  <div class="formulario" id="cadastro2">
+    <h2>Profissional:</h2>
+    <form id="cadastroForm2">
+
+      <label for="representante">Nome:</label>
+      <input type="text" id="representante" name="representante" required>
+      
+      <label for="endereco">Endereço:</label>
+      <input type="text" id="endereco" name="endereco" required>
+       
+      <label for="email">E-mail:</label>
+      <input type="email" id="email" name="email" required>
+      
+      <label for="telefone">Telefone:</label>
+      <input type="text" id="telefone" name="telefone" required>
+
+      <label for="arquivo">Enviar arquivo de currículo:</label>
+      <input type="file" id="arquivo" name="arquivo">
+      
+      <button type="submit">Cadastrar</button>
+    </form>
+  </div>
+
+  <div id="modalPrivado" style="display: none;">
+    <div>
+      <h3></h3>
+      <p>Você sabia que...</p>
+      <button onclick="fecharModalPrivado()">Fechar</button>
+    </div>
+  </div>
+
+  <script>
+    // Função para adicionar a classe "active" ao formulário selecionado
+    function setActiveForm(formId) {
+      const forms = document.querySelectorAll('.formulario');
+      forms.forEach((form) => {
+        if (form.id === formId) {
+          form.classList.add('active');
+        } else {
+          form.classList.remove('active');
+        }
+      });
+    }
+
+    // Event listener para quando um formulário é selecionado
+    const form1 = document.getElementById('cadastro1');
+    const form2 = document.getElementById('cadastro2');
+
+    form1.addEventListener('click', () => setActiveForm('cadastro1'));
+    form2.addEventListener('click', () => setActiveForm('cadastro2'));
+
+    // Event listener para o envio do formulário
+    document.getElementById('cadastroForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      // Restante do seu código para lidar com os dados do formulário
+      
+      // Exibe uma mensagem de confirmação após o envio do formulário de Escola
+      alert('Seu cadastro foi concluído com sucesso!');
+
+      // Limpa os campos após o cadastro
+      document.getElementById('cadastroForm').reset();
+    });
+
+    // Event listener para o envio do formulário de profissional
+    document.getElementById('cadastroForm2').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      // Restante do seu código para lidar com os dados do formulário
+      
+      // Exibe uma mensagem de confirmação após o envio do formulário de Profissional
+      alert('Seu cadastro foi conluído com sucesso!');
+
+      // Limpa os campos após o cadastro
+      document.getElementById('cadastroForm2').reset();
+    });
+
+    // Função para abrir o modal de informações privadas
+    function abrirModalPrivado() {
+      document.getElementById('modalPrivado').style.display = 'flex';
+    }
+
+    // Função para fechar o modal de informações privadas
+    function fecharModalPrivado() {
+      document.getElementById('modalPrivado').style.display = 'none';
+    }
+
+    // Event listener para verificar quando a opção "Privada" é selecionada
+    document.getElementById('tipo').addEventListener('change', function(event) {
+      if (event.target.value === 'privado') {
+        abrirModalPrivado();
+      } else {
+        fecharModalPrivado();
+      }
+    });
+  </script>
+</body>
+</html>
